@@ -68,3 +68,7 @@ button {
     border-radius: 1vh;
     padding: 1vh;
 }
+
+.controller-image {
+    width: 45vh;
+}
