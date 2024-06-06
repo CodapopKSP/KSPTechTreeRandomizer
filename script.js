@@ -1,5 +1,3 @@
-
-
 class TechNode {
     constructor(id, title, description, cost, hideEmpty,
         nodeName, anyToUnlock, icon, pos, scale, Parent1, Parent2) {
@@ -26,29 +24,10 @@ class Parent {
     }
 }
 
-
-
-document.getElementById('parseButton').addEventListener('click', function() {
-    const fileInput = document.getElementById('fileInput');
-    const output = document.getElementById('output');
-
-    if (fileInput.files.length === 0) {
-        alert('Please select a file!');
-        return;
-    }
-
-    const file = fileInput.files[0];
-    const reader = new FileReader();
-
-    reader.onload = function(event) {
-        const fileContent = event.target.result;
-        const lines = fileContent.split('\n');
-
-        const randomized = parseNodes(lines);
-
-    };
-
-    reader.readAsText(file);
+document.getElementById('randomizeButton').addEventListener('click', function() {
+    const fileContent = techTreeContent;
+    const lines = fileContent.split('\n');
+    parseNodes(lines); // Randomize and Save File
 });
 
 function parseNodes(Lines) {
