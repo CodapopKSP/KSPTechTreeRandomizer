@@ -24,20 +24,28 @@ class Parent {
     }
 }
 
+// Get button push
 document.getElementById('randomizeButton').addEventListener('click', function() {
     const fileContent = techTreeContent;
     const lines = fileContent.split('\n');
     parseNodes(lines); // Randomize and Save File
 });
 
+// Huge unruly function for doing everything; don't judge
 function parseNodes(Lines) {
     let StartlessNodeList = []
     let StartNode;
+
+    // Iterate through each line of TechTree.cfg
     for (let l = 0; l < Lines.length; l++) {
         let parent1;
 		let parent2;
+
+        // Starting of a node
 		if (Lines[l].includes('RDNode')) {
 			if (Lines[l + 1].includes('{')) {
+
+                // Parse the node
 				let id = Lines[l + 2].substring(7).trim();
                 let title = Lines[l + 3].substring(10).trim();
                 let description = Lines[l + 4].substring(16).trim();
@@ -49,15 +57,14 @@ function parseNodes(Lines) {
                 let pos = Lines[l + 10].substring(8).trim();
                 let scale = Lines[l + 11].substring(10).trim();
 
+                // Handle node parents
                 let parent1, parent2;
-
                 if (Lines[l + 12].includes('Parent')) {
                     let parent1_parentID = Lines[l + 14].substring(14).trim();
                     let parent1_lineFrom = Lines[l + 15].substring(14).trim();
                     let parent1_lineTo = Lines[l + 16].substring(12).trim();
                     parent1 = new Parent(parent1_parentID, parent1_lineFrom, parent1_lineTo);
                 }
-
                 if (Lines[l + 18].includes('Parent')) {
                     let parent2_parentID = Lines[l + 20].substring(14).trim();
                     let parent2_lineFrom = Lines[l + 21].substring(14).trim();
@@ -65,6 +72,7 @@ function parseNodes(Lines) {
                     parent2 = new Parent(parent2_parentID, parent2_lineFrom, parent2_lineTo);
                 }
 
+                // Create a new TechNode object for later
                 if (!id.includes('start')) {
                     StartlessNodeList.push(new TechNode(id, title, description, cost, hideEmpty,
                         nodeName, anyToUnlock, icon, pos, scale, parent1, parent2));
@@ -74,9 +82,10 @@ function parseNodes(Lines) {
                 }
             }
         }
+
+        // Handle parent relations
         let parent1NodeList = {};
         let parent2NodeList = {};
-
         for (let n = 0; n < StartlessNodeList.length; n++) {
             if (StartlessNodeList[n].Parent1 !== undefined && StartlessNodeList[n].Parent1 !== null) {
                 for (let p = 0; p < StartlessNodeList.length; p++) {
@@ -100,6 +109,7 @@ function parseNodes(Lines) {
             }
         }
 
+        // Shuffle nodes
         let nodeShuffleList = {};
         for (let n = 0; n < StartlessNodeList.length; n++) {
             nodeShuffleList[n] = { id: StartlessNodeList[n].id };
@@ -120,6 +130,7 @@ function parseNodes(Lines) {
             StartlessNodeList[n].nodeName = nodeShuffleList[n].nodeName;
         }
 
+        // Rebuild parent relations
         for (let n = 0; n < StartlessNodeList.length; n++) {
             for (let p in parent1NodeList) {
                 if (n === parseInt(p)) {
@@ -145,12 +156,14 @@ function parseNodes(Lines) {
             }
         }
     }
-        
+    
+    // Recreate the Node List
     let NodeList = [StartNode];
     for (let n = 0; n < StartlessNodeList.length; n++) {
         NodeList.push(StartlessNodeList[n]);
     }
 
+    // Rebuild TechTree.cfg
     let fileContent = 'TechTree\n{\n';
     for (let node of NodeList) {
         fileContent += '    RDNode\n' +
