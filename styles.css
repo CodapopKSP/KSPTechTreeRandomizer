@@ -1,0 +1,25 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+pre {
+    width: 80%;
+    max-height: 60vh;
+    overflow: auto;
+    background: #f4f4f4;
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin-top: 20px;
+}
