@@ -3,13 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechTree Parser</title>
+    <title>KSP Tech Tree Randomizer</title>
     <link rel="stylesheet" href="styles.css">
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>Click to download a randomized Tech Tree file.</h1>
-    <button id="randomizeButton">Randomize!</button>
-    <pre id="output"></pre>
+    <div class="page_wrapper">
+        <div class="header">
+            <h1>KSP Tech Tree Randomizer</h1>
+            <label>Created by Codapop</label>
+        </div>
+
+        <div class="randomizer">
+            <label class="instructions">Click to download a randomized Tech Tree file.</label>
+            <button id="randomizeButton">Download</button>
+            <label class="instructions2">
+                Then move the file to your KSP directory under GameData/Squad/Resources and replace the original file called TechTree.cfg.
+                <br></br>
+                Warning: May break saves. Use at your own risk.
+            </label>
+        </div>
+
+        <div class="about">
+            <label>
+                The creator of this web tool also builds Kerbal controllers. If you'd like to order one, you can find more information here.
+                <br></br>
+            </label>
+            <a href="https://untitledspacecraft.com/" target="_blank">
+                <img src="USCcontroller.png" alt="Kerbal Controller" class="controller-image">
+            </a>
+        </div>
+        
+    </div>
 
     <script src="script.js" defer></script>
     <script src="TechTree.js" defer></script>
