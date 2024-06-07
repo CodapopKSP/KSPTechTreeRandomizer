@@ -46,7 +46,7 @@ html, body {
 
 .instructions2 {
     max-width: 50vh;
-    font-size: 2.3vh;
+    font-size: 2.1vh;
 }
 
 button {
@@ -72,7 +72,7 @@ button:hover {
 .about {
     color: rgb(237, 237, 237);
     max-width: 50vh;
-    font-size: 2.3vh;
+    font-size: 2vh;
     background-color: rgb(60, 60, 60);
     border: 0.3vh solid #000000;
     border-radius: 1vh;
@@ -99,6 +99,14 @@ h1 {
 
 a {
     color: rgb(138, 206, 215);
+}
+
+#seedInput {
+    width: 24vh;
+    font-size: 2vh;
+    padding: 0.2vh;
+    margin-top: 1.7vh;
+    background-color: rgb(237, 237, 237);;
 }
 
 

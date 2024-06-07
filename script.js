@@ -28,11 +28,13 @@ class Parent {
 document.getElementById('randomizeButton').addEventListener('click', function() {
     const fileContent = techTreeContent;
     const lines = fileContent.split('\n');
-    parseNodes(lines); // Randomize and Save File
+    let seed = document.getElementById('seedInput').value;
+    
+    parseNodes(lines, seed); // Randomize and Save File
 });
 
 // Huge unruly function for doing everything; don't judge
-function parseNodes(Lines) {
+function parseNodes(Lines, seed) {
     let StartlessNodeList = []
     let StartNode;
 
@@ -119,10 +121,7 @@ function parseNodes(Lines) {
         nodeShuffleList[n].icon = StartlessNodeList[n].icon;
         nodeShuffleList[n].nodeName = StartlessNodeList[n].nodeName;
     }
-    Object.keys(nodeShuffleList).forEach(function(n) {
-        let randomIndex = Math.floor(Math.random() * StartlessNodeList.length);
-        [nodeShuffleList[n], nodeShuffleList[randomIndex]] = [nodeShuffleList[randomIndex], nodeShuffleList[n]];
-    });
+    shuffleWithSeed(nodeShuffleList, seed);
     for (let n = 0; n < StartlessNodeList.length; n++) {
         StartlessNodeList[n].id = nodeShuffleList[n].id;
         StartlessNodeList[n].title = nodeShuffleList[n].title;
@@ -218,7 +217,41 @@ function parseNodes(Lines) {
     window.URL.revokeObjectURL(link.href);
 }
 
+function seededRandom(seed) {
+    let x = Math.sin(seed++) * 10000;
+    return x - Math.floor(x);
+}
 
+function shuffleWithSeed(obj, seed) {
+    if (seed === undefined || seed === null || seed === '') {
+        seed = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
+    } else {
+        seed = stringToSeed(seed);
+    }
+    let seededRandom = (function(s) {
+        let seed = s;
+        return function() {
+            let x = Math.sin(seed++) * 10000;
+            return x - Math.floor(x);
+        };
+    })(seed);
+
+    let keys = Object.keys(obj);
+    for (let i = keys.length - 1; i > 0; i--) {
+        let j = Math.floor(seededRandom() * (i + 1));
+        [obj[keys[i]], obj[keys[j]]] = [obj[keys[j]], obj[keys[i]]];
+    }
+}
+
+function stringToSeed(str) {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+        let char = str.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash; // Convert to 32-bit integer
+    }
+    return Math.abs(hash);
+}
 
 
 
