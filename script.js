@@ -36,7 +36,7 @@ function parseNodes(Lines) {
     let StartlessNodeList = []
     let StartNode;
 
-    // Iterate through each line of TechTree.cfg
+    // Iterate through each line of TechTree.cfg and build node object list
     for (let l = 0; l < Lines.length; l++) {
         let parent1;
 		let parent2;
@@ -72,7 +72,7 @@ function parseNodes(Lines) {
                     parent2 = new Parent(parent2_parentID, parent2_lineFrom, parent2_lineTo);
                 }
 
-                // Create a new TechNode object for later
+                // Create a new TechNode and add it to the list
                 if (!id.includes('start')) {
                     StartlessNodeList.push(new TechNode(id, title, description, cost, hideEmpty,
                         nodeName, anyToUnlock, icon, pos, scale, parent1, parent2));
@@ -82,76 +82,76 @@ function parseNodes(Lines) {
                 }
             }
         }
+    }
 
-        // Handle parent relations
-        let parent1NodeList = {};
-        let parent2NodeList = {};
-        for (let n = 0; n < StartlessNodeList.length; n++) {
-            if (StartlessNodeList[n].Parent1 !== undefined && StartlessNodeList[n].Parent1 !== null) {
-                for (let p = 0; p < StartlessNodeList.length; p++) {
-                    if (StartlessNodeList[p].id === StartlessNodeList[n].Parent1.parentID) {
-                        parent1NodeList[n] = [p];
-                    }
-                    if (StartlessNodeList[n].Parent1.parentID === 'start') {
-                        parent1NodeList[n] = 'start';
-                    }
+    // Handle parent relations
+    let parent1NodeList = {};
+    let parent2NodeList = {};
+    for (let n = 0; n < StartlessNodeList.length; n++) {
+        if (StartlessNodeList[n].Parent1 !== undefined && StartlessNodeList[n].Parent1 !== null) {
+            for (let p = 0; p < StartlessNodeList.length; p++) {
+                if (StartlessNodeList[p].id === StartlessNodeList[n].Parent1.parentID) {
+                    parent1NodeList[n] = [p];
                 }
-            }
-            if (StartlessNodeList[n].Parent2 !== undefined && StartlessNodeList[n].Parent2 !== null) {
-                for (let p = 0; p < StartlessNodeList.length; p++) {
-                    if (StartlessNodeList[p].id === StartlessNodeList[n].Parent2.parentID) {
-                        parent2NodeList[n] = [p];
-                    }
-                    if (StartlessNodeList[n].Parent2.parentID === 'start') {
-                        parent2NodeList[n] = 'start';
-                    }
+                if (StartlessNodeList[n].Parent1.parentID === 'start') {
+                    parent1NodeList[n] = 'start';
                 }
             }
         }
-
-        // Shuffle nodes
-        let nodeShuffleList = {};
-        for (let n = 0; n < StartlessNodeList.length; n++) {
-            nodeShuffleList[n] = { id: StartlessNodeList[n].id };
-            nodeShuffleList[n].title = StartlessNodeList[n].title;
-            nodeShuffleList[n].description = StartlessNodeList[n].description;
-            nodeShuffleList[n].icon = StartlessNodeList[n].icon;
-            nodeShuffleList[n].nodeName = StartlessNodeList[n].nodeName;
-        }
-        Object.keys(nodeShuffleList).forEach(function(n) {
-            let randomIndex = Math.floor(Math.random() * StartlessNodeList.length);
-            [nodeShuffleList[n], nodeShuffleList[randomIndex]] = [nodeShuffleList[randomIndex], nodeShuffleList[n]];
-        });
-        for (let n = 0; n < StartlessNodeList.length; n++) {
-            StartlessNodeList[n].id = nodeShuffleList[n].id;
-            StartlessNodeList[n].title = nodeShuffleList[n].title;
-            StartlessNodeList[n].description = nodeShuffleList[n].description;
-            StartlessNodeList[n].icon = nodeShuffleList[n].icon;
-            StartlessNodeList[n].nodeName = nodeShuffleList[n].nodeName;
-        }
-
-        // Rebuild parent relations
-        for (let n = 0; n < StartlessNodeList.length; n++) {
-            for (let p in parent1NodeList) {
-                if (n === parseInt(p)) {
-                    let x = parent1NodeList[n].toString();
-                    if (x === 'start') {
-                        StartlessNodeList[n].Parent1.parentID = 'start';
-                    } else {
-                        x = x.replace('[', '').replace(']', '');
-                        StartlessNodeList[n].Parent1.parentID = StartlessNodeList[parseInt(x)].id;
-                    }
+        if (StartlessNodeList[n].Parent2 !== undefined && StartlessNodeList[n].Parent2 !== null) {
+            for (let p = 0; p < StartlessNodeList.length; p++) {
+                if (StartlessNodeList[p].id === StartlessNodeList[n].Parent2.parentID) {
+                    parent2NodeList[n] = [p];
+                }
+                if (StartlessNodeList[n].Parent2.parentID === 'start') {
+                    parent2NodeList[n] = 'start';
                 }
             }
-            for (let p in parent2NodeList) {
-                if (n === parseInt(p)) {
-                    let x = parent2NodeList[n].toString();
-                    if (x === 'start') {
-                        StartlessNodeList[n].Parent2.parentID = 'start';
-                    } else {
-                        x = x.replace('[', '').replace(']', '');
-                        StartlessNodeList[n].Parent2.parentID = StartlessNodeList[parseInt(x)].id;
-                    }
+        }
+    }
+
+    // Shuffle nodes
+    let nodeShuffleList = {};
+    for (let n = 0; n < StartlessNodeList.length; n++) {
+        nodeShuffleList[n] = { id: StartlessNodeList[n].id };
+        nodeShuffleList[n].title = StartlessNodeList[n].title;
+        nodeShuffleList[n].description = StartlessNodeList[n].description;
+        nodeShuffleList[n].icon = StartlessNodeList[n].icon;
+        nodeShuffleList[n].nodeName = StartlessNodeList[n].nodeName;
+    }
+    Object.keys(nodeShuffleList).forEach(function(n) {
+        let randomIndex = Math.floor(Math.random() * StartlessNodeList.length);
+        [nodeShuffleList[n], nodeShuffleList[randomIndex]] = [nodeShuffleList[randomIndex], nodeShuffleList[n]];
+    });
+    for (let n = 0; n < StartlessNodeList.length; n++) {
+        StartlessNodeList[n].id = nodeShuffleList[n].id;
+        StartlessNodeList[n].title = nodeShuffleList[n].title;
+        StartlessNodeList[n].description = nodeShuffleList[n].description;
+        StartlessNodeList[n].icon = nodeShuffleList[n].icon;
+        StartlessNodeList[n].nodeName = nodeShuffleList[n].nodeName;
+    }
+
+    // Rebuild parent relations
+    for (let n = 0; n < StartlessNodeList.length; n++) {
+        for (let p in parent1NodeList) {
+            if (n === parseInt(p)) {
+                let x = parent1NodeList[n].toString();
+                if (x === 'start') {
+                    StartlessNodeList[n].Parent1.parentID = 'start';
+                } else {
+                    x = x.replace('[', '').replace(']', '');
+                    StartlessNodeList[n].Parent1.parentID = StartlessNodeList[parseInt(x)].id;
+                }
+            }
+        }
+        for (let p in parent2NodeList) {
+            if (n === parseInt(p)) {
+                let x = parent2NodeList[n].toString();
+                if (x === 'start') {
+                    StartlessNodeList[n].Parent2.parentID = 'start';
+                } else {
+                    x = x.replace('[', '').replace(']', '');
+                    StartlessNodeList[n].Parent2.parentID = StartlessNodeList[parseInt(x)].id;
                 }
             }
         }
