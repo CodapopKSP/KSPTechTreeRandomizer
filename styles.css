@@ -87,3 +87,16 @@ button {
 h1 {
     color: rgb(151, 215, 138);
 }
+
+
+@media (max-aspect-ratio: 2/2.4) {
+    .page_wrapper > * {
+        transform: scale(0.8);
+    }
+    .randomizer {
+        margin: 0vh;
+    }
+    .intro {
+        margin: 0vh;
+    }
+}
