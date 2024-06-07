@@ -61,6 +61,14 @@ button {
     color: #ffffff;
 }
 
+button:hover {
+    background-color: #686868;
+}
+
+.controller-image:hover {
+    opacity: 80%;
+}
+
 .about {
     color: rgb(237, 237, 237);
     max-width: 50vh;
