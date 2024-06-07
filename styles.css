@@ -97,6 +97,10 @@ h1 {
     margin: 1.5vh;
 }
 
+a {
+    color: rgb(138, 206, 215);
+}
+
 
 @media (max-aspect-ratio: 2/2.4) {
     .page_wrapper > * {
