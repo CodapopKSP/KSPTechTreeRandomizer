@@ -25,7 +25,7 @@ html, body {
     color: rgb(237, 237, 237);
     font-size: 2vh;
     top: 0;
-    font-family: 'Orbitron', sans-serif !important;
+    font-family: 'Orbitron', sans-serif;
 }
 
 .randomizer {
@@ -34,8 +34,8 @@ html, body {
     align-items: center;
     color: rgb(151, 215, 138);
     background-color: rgb(60, 60, 60);
-    margin: 4vh;
-    padding: 4vh;
+    margin: 3vh;
+    padding: 3vh;
     border: 0.3vh solid #000000;
     border-radius: 1vh;
 }
@@ -54,9 +54,11 @@ button {
     font-size: 3vh;
     cursor: pointer;
     margin: 2vh;
-    background-color: #a2a2a2;
+    background-color: #5e5e5e;
     border: 0.25vh solid #000000;
-    border-radius: 0.3vh;
+    border-radius: 2vh;
+    font-family: 'Orbitron', sans-serif;
+    color: #ffffff;
 }
 
 .about {
@@ -71,4 +73,17 @@ button {
 
 .controller-image {
     width: 45vh;
+}
+
+.intro {
+    position: relative;
+    color: rgb(237, 237, 237);
+    top: 2vh;
+    font-size: 1.7vh;
+    max-width: 50vh;
+    margin: 1vh;
+}
+
+h1 {
+    color: rgb(151, 215, 138);
 }
